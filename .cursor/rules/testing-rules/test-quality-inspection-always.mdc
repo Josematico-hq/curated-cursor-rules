@@ -1,0 +1,138 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Test Quality Inspection
+
+## Critical Rules
+
+🔍 **MANDATORY TEST QUALITY INSPECTION**
+- EVERY test must pass quality inspection before proceeding
+- Tests must actually verify the intended behavior
+- Tests must be capable of catching real bugs
+- Weak or ineffective tests are NOT ACCEPTABLE
+
+🎯 **TEST EFFECTIVENESS CRITERIA**
+- **Behavior Verification**: Does the test actually verify the intended behavior?
+- **Failure Sensitivity**: Would the test fail if the implementation was wrong?
+- **Assertion Quality**: Are assertions specific and meaningful?
+- **Independence**: Can the test run in isolation?
+- **Clarity**: Is it obvious what the test is verifying?
+
+📋 **MUTATION TESTING ANALYSIS - MANDATORY**
+For each test, ask these questions:
+- Would this test fail if I returned a wrong value?
+- Would this test fail if I used wrong comparison operators?
+- Would this test fail if I had off-by-one errors?
+- Would this test fail if I forgot null checks?
+- Would this test fail if I used wrong conditional logic?
+
+⚡ **INSPECTION CHECKLIST**
+
+**Assertion Analysis:**
+- Are assertions specific (not just "truthy")?
+- Do assertions verify actual vs expected values?
+- Are error conditions properly asserted?
+- Are multiple related aspects verified?
+
+**Test Design Analysis:**
+- Does test name clearly describe what's being verified?
+- Is test focused on single behavior?
+- Are test data/inputs realistic and relevant?
+- Is the test deterministic (not flaky)?
+
+**Coverage Analysis:**
+- Does this test cover a unique scenario?
+- Are all execution paths through the code tested?
+- Are edge cases and boundaries covered?
+- Are error conditions properly tested?
+
+🚨 **FAILING QUALITY INSPECTION**
+If ANY of these are true, the test FAILS inspection:
+- Test passes even when implementation is obviously wrong
+- Assertions are too vague or generic
+- Test doesn't actually test the business logic
+- Multiple behaviors are tested in one test
+- Test relies too heavily on mocks instead of real behavior
+- Test name doesn't match what's actually tested
+
+## Examples
+
+<example>
+  **HIGH QUALITY TEST (Passes Inspection):**
+  
+  ```typescript
+  it('should return validation error when email is missing @ symbol', () => {
+    const validator = new EmailValidator();
+    
+    const result = validator.validate('userdomain.com');
+    
+    expect(result.isValid).toBe(false);
+    expect(result.error).toBe('Email must contain @ symbol');
+    expect(result.suggestions).toContain('user@domain.com');
+  });
+  ```
+  
+  **Quality Inspection Analysis:**
+  ✅ **Behavior Verification**: Clearly tests email validation without @ symbol
+  ✅ **Failure Sensitivity**: Would fail if validation logic was wrong
+  ✅ **Assertion Quality**: Specific assertions for isValid, error message, and suggestions
+  ✅ **Independence**: Test runs in isolation with its own validator instance
+  ✅ **Clarity**: Test name exactly describes what's being verified
+  
+  **Mutation Testing Analysis:**
+  ✅ Would fail if validator returned `true` instead of `false`
+  ✅ Would fail if wrong error message was returned
+  ✅ Would fail if no suggestions were provided
+  ✅ Would fail if validation logic was bypassed
+</example>
+
+<example type="invalid">
+  **LOW QUALITY TESTS (Fail Inspection):**
+  
+  ❌ **Weak Assertions:**
+  ```typescript
+  it('should validate email', () => {
+    const result = validateEmail('test@test.com');
+    expect(result).toBeTruthy(); // Too vague!
+  });
+  ```
+  **Problems**: Assertion too vague, would pass even if result was wrong object
+  
+  ❌ **Multiple Behaviors:**
+  ```typescript
+  it('should handle email validation and user creation', () => {
+    // Tests two different things - fails single responsibility
+  });
+  ```
+  **Problems**: Testing multiple behaviors, unclear what failed if test breaks
+  
+  ❌ **Over-Mocking:**
+  ```typescript
+  it('should create user', () => {
+    mockValidator.validate.mockReturnValue(true);
+    mockDatabase.save.mockReturnValue({id: 123});
+    // Not testing real logic, just mocks
+  });
+  ```
+  **Problems**: Mocking the actual logic being tested
+  
+  ❌ **Implementation Dependent:**
+  ```typescript
+  it('should call validate method', () => {
+    const spy = jest.spyOn(validator, 'validate');
+    service.processEmail('test@test.com');
+    expect(spy).toHaveBeenCalled(); // Tests implementation, not behavior
+  });
+  ```
+  **Problems**: Tests how it works, not what it does
+  
+  ❌ **No Real Verification:**
+  ```typescript
+  it('should not throw error', () => {
+    expect(() => validateEmail('test@test.com')).not.toThrow();
+  });
+  ```
+  **Problems**: Doesn't verify the actual validation result
+</example>

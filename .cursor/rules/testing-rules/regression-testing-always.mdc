@@ -1,0 +1,121 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Regression Testing Protocol
+
+## Critical Rules
+
+🚨 **MANDATORY FULL TEST SUITE EXECUTION**
+- Run COMPLETE test suite after EVERY code change
+- NEVER assume existing tests still pass without verification
+- ALL existing tests MUST remain green before proceeding
+- NO exceptions - even "simple" changes require full regression testing
+
+🔄 **Regression Testing Checkpoints - MANDATORY**
+- **After writing production code**: Run full test suite
+- **After ANY refactor**: Run full test suite to ensure no regression
+- **Before proceeding to next test case**: Verify all existing tests pass
+- **After completing a piece of work**: Confirm entire application still works
+- **Before committing any changes**: Full regression test verification
+
+🛡️ **Regression Prevention Rules**
+- NEVER modify existing tests unless business requirements change
+- NEVER ignore failing existing tests to make new features work
+- NEVER assume changes are isolated - always verify full impact
+- If ANY existing test fails, STOP and fix before proceeding
+- Treat failing regression tests as highest priority issues
+
+🔍 **Integration Testing Requirements**
+- Verify new code integrates properly with existing systems
+- Test interactions between new and existing components
+- Ensure data flows and API contracts remain intact
+- Check for side effects in related modules
+- Validate end-to-end scenarios still work
+
+⚠️ **Regression Failure Protocol**
+- **If ANY test fails during regression**: STOP all development
+- **Identify root cause**: Determine what change caused the failure
+- **Fix immediately**: Restore functionality before proceeding
+- **Re-run full suite**: Verify fix doesn't introduce new regressions
+- **Only then proceed**: Continue with current development task
+
+🎯 **Test Suite Health Monitoring**
+- Monitor test execution time for performance regressions
+- Ensure all tests run successfully in isolation
+- Verify test suite completeness covers critical paths
+- Check for flaky tests that may hide real regressions
+- Maintain test data integrity across test runs
+
+📊 **Coverage and Quality Metrics**
+- Ensure test coverage doesn't decrease with changes
+- Verify new code is properly covered by tests
+- Check that edge cases remain tested
+- Confirm error handling paths are still validated
+- Maintain or improve overall code quality metrics
+
+## Examples
+
+<example>
+  **Correct Regression Testing Workflow:**
+  
+  **After implementing user creation feature:**
+  
+  "I have completed the user creation test and implementation. Before proceeding to email validation, I will run the full test suite to ensure no regressions:
+  
+  **Step 1: Execute Full Test Suite**
+  Running complete test suite...
+  ✅ Authentication tests: 15/15 passing
+  ✅ User management tests: 8/8 passing  
+  ✅ Database tests: 12/12 passing
+  ✅ API endpoint tests: 22/22 passing
+  ✅ Integration tests: 6/6 passing
+  ✅ New user creation test: 1/1 passing
+  
+  **Step 2: Verify No Regressions**
+  Total: 64/64 tests passing
+  No regressions detected. All existing functionality intact.
+  
+  **Step 3: Performance Check**
+  Test suite execution time: 2.3 seconds (within acceptable range)
+  No performance regressions detected.
+  
+  **Step 4: Proceed Safely**
+  Regression testing complete. Safe to proceed with email validation feature."
+</example>
+
+<example type="invalid">
+  **FORBIDDEN - Skipping Regression Testing:**
+  
+  ❌ Assuming no impact:
+  "This is a simple change, it won't affect anything else."
+  [Proceeds without running full test suite]
+  
+  ❌ Ignoring test failures:
+  "Some old tests are failing but my new feature works."
+  [Continues development while existing tests fail]
+  
+  ❌ Partial test execution:
+  "I'll just run the tests for this module."
+  [Skips full regression testing]
+  
+  ❌ Modifying tests to pass:
+  ```typescript
+  // FORBIDDEN: Changing existing test to accommodate new code
+  // it('should return user count of 5', () => {
+  //   expect(getUserCount()).toBe(5);
+  // });
+  it('should return user count of 6', () => { // Changed expectation
+    expect(getUserCount()).toBe(6);
+  });
+  ```
+  
+  ❌ Proceeding with regressions:
+  "There's one failing test but I'll fix it later."
+  [Continues adding new features while regression exists]
+  
+  ❌ Not verifying integration:
+  "My unit tests pass, so the feature is complete."
+  [Skips integration and end-to-end verification]
+</example>

@@ -1,0 +1,146 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Master Development Workflow
+
+## Critical Rules
+
+🎯 **MASTER WORKFLOW - FOLLOW SEQUENTIALLY**
+This workflow orchestrates ALL development activities. Each step references detailed rules for complete guidance.
+
+### **PHASE 1: PREPARATION & RESEARCH**
+1. **Problem Analysis** 
+   - Break down the problem into small, testable pieces of work (see Problem Analysis & Breakdown rule)
+   - Identify all technologies/libraries involved
+
+2. **Documentation Research** 
+   - Use Context7 MCP for current documentation (see Context7 Documentation rule)
+   - Get focused documentation for each technology
+   - Verify current APIs and best practices
+
+3. **Test Case Planning**
+   - Think through ALL possible test cases for current piece of work (see Test Planning Strategy rule)
+   - Consider edge cases, error conditions, boundary values
+   - Plan which test cases will ensure complete coverage
+
+### **PHASE 2: TEST-DRIVEN DEVELOPMENT CYCLE**
+4. **Write Failing Test** 
+   - Write ONE test for current test case (see TDD Development rule)
+   - Follow step-by-step verification (see Step-by-Step Verification rule)
+   - Ensure test fails for the RIGHT reason
+
+5. **Write Production Code**
+   - Write minimal code to make ONLY current test pass
+   - Use current documentation from research phase
+   - Follow code quality standards (see Code Quality Standards rule)
+
+6. **Static Quality Verification**
+   - Run ALL static analysis tools (see Static Analysis Enforcement rule)
+   - Fix ALL errors and warnings before proceeding
+   - Verify code meets quality standards
+
+7. **Test Verification**
+   - Run current test to verify it passes
+   - Run full test suite for regression testing (see Regression Testing rule)
+   - Verify no existing functionality broken
+
+8. **Test Quality Inspection**
+   - Inspect test effectiveness and coverage (see Test Quality Inspection rule)
+   - Consider mutation testing scenarios
+   - Decide if more tests needed for current piece of work
+
+### **PHASE 3: ITERATION & COMPLETION**
+9. **Iteration Decision**
+   - If more test cases needed: Return to step 4 for next test case
+   - If piece complete: Proceed to refactoring
+
+10. **Refactoring**
+    - Clean code while maintaining green tests
+    - Apply SOLID principles and clean code practices
+    - Run static analysis and regression testing after changes
+
+11. **Piece Completion**
+    - Verify ALL test cases for current piece are complete
+    - Run final regression testing
+    - Move to next piece of work
+
+## Rule References
+
+**Detailed Implementation Guidance:**
+- 🔍 **Context7 Documentation Rule** - For current documentation lookup
+- 🔴 **TDD Development Rule** - For test-driven development details  
+- ⚡ **Step-by-Step Verification Rule** - For granular step verification
+- 🛡️ **Regression Testing Rule** - For regression prevention protocols
+- 📐 **Code Quality Standards Rule** - For quality metrics and standards
+- 🔧 **Static Analysis Enforcement Rule** - For static quality checks
+- 🎯 **Problem Analysis & Breakdown Rule** - For problem decomposition methodology
+- 📋 **Test Planning Strategy Rule** - For comprehensive test case identification
+- 🔍 **Test Quality Inspection Rule** - For test effectiveness evaluation
+
+## Workflow Enforcement
+
+🚨 **MANDATORY CHECKPOINTS**
+- **Cannot proceed** without completing current phase
+- **Cannot skip steps** within any phase
+- **Cannot ignore** quality checks or regression testing
+- **Cannot bypass** documentation research for any technology
+
+⚡ **VERIFICATION POINTS**
+- After each step: Explicit confirmation required
+- Before next phase: All previous requirements met
+- Throughout workflow: Continuous quality monitoring
+
+🎯 **SUCCESS CRITERIA**
+- All tests passing (including regression tests)
+- All static quality checks passing
+- All code quality standards met
+- Current documentation used for all implementations
+- Step-by-step verification completed
+
+## Examples
+
+<example>
+  **Correct Master Workflow Usage:**
+  
+  "I will implement user authentication following the Master Development Workflow:
+  
+  **PHASE 1: PREPARATION & RESEARCH**
+  - Problem broken into pieces: login validation, token generation, session management
+  - Using Context7 MCP to get current documentation for JWT libraries
+  - Test cases planned for current piece (login validation)
+  
+  **PHASE 2: TDD CYCLE (Piece 1: Login Validation)**
+  - Test Case 1: Valid credentials return success
+    - Write failing test → Static analysis → Minimal production code → Regression testing → Quality inspection
+  - Test Case 2: Invalid credentials return error  
+    - [Repeat TDD cycle]
+  - Test Case 3: Missing credentials return validation error
+    - [Repeat TDD cycle]
+  
+  **PHASE 3: COMPLETION**
+  - All test cases for login validation complete
+  - Refactoring with quality checks
+  - Moving to next piece: token generation"
+</example>
+
+<example type="invalid">
+  **FORBIDDEN - Skipping Workflow Steps:**
+  
+  ❌ Jumping directly to coding:
+  "I'll just implement the feature quickly."
+  [Skips research, planning, and TDD process]
+  
+  ❌ Skipping documentation research:
+  "I know this library well enough."
+  [Proceeds without Context7 MCP lookup]
+  
+  ❌ Writing multiple features at once:
+  "I'll implement login, registration, and password reset together."
+  [Doesn't break down into small pieces]
+  
+  ❌ Skipping quality checks:
+  "Tests pass, that's good enough."
+  [Ignores static analysis and code quality standards]
+</example>

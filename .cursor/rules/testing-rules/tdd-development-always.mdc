@@ -1,0 +1,241 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Test-Driven Development (TDD) Enforcement
+
+## Critical Rules
+
+🚨 **ABSOLUTE PROHIBITION - Production Code First**
+- Writing production code without a failing test first is FORBIDDEN
+- NO exceptions to this rule - even "simple" or "obvious" code requires a test first
+
+🔄 **Mandatory TDD Workflow - Follow Sequentially**
+1. **Divide**: Break problem into small, testable pieces of work
+2. **Research**: Get current documentation using Context7 MCP for any libraries/technologies
+3. **Plan Test Cases**: Think through ALL possible test cases for the current piece
+4. **Red**: Write ONE failing test for the current small piece of work
+5. **Verify Red**: Run test to confirm it fails for the RIGHT reason
+6. **Green**: Write minimal production code to make ONLY that test pass
+7. **Verify Green**: Run test to confirm it passes
+8. **Inspect Test Quality**: Verify test effectiveness before proceeding
+9. **Refactor**: Clean code while keeping tests green
+10. **Repeat**: Move to next small piece of work
+
+🔴 **Red Phase - Failing Tests First**
+- Write ONE test at a time that expresses the next small functionality
+- Ensure the test fails for the RIGHT reason (not compilation errors)
+- Think through ALL test cases for this piece of work BEFORE writing any production code
+- Run the test to confirm it fails before proceeding
+
+🟢 **Green Phase - Minimal Implementation**
+- Write ONLY enough production code to make the current failing test pass
+- Focus on making the test green, not on perfect implementation
+- Avoid over-engineering during the green phase
+- ALL test cases for the current piece must be green before moving to next piece
+
+🔍 **Test Quality Inspection - MANDATORY BEFORE PROCEEDING**
+- **Verify Test Completeness**: Does the test cover the intended behavior completely?
+- **Check Test Assertions**: Are assertions specific and meaningful?
+- **Validate Test Independence**: Can the test run in isolation?
+- **Mutation Testing**: Would the test fail if the implementation was slightly broken?
+- **Review Test Names**: Does the test name clearly describe what is being tested?
+- **Confirm Real Testing**: Is the test actually testing implementation, not mocks?
+
+🔵 **Refactor Phase - Clean Code**
+- Refactor ONLY when all tests are green
+- Improve code structure, readability, and maintainability
+- Ensure ALL tests continue to pass after refactoring
+- Apply SOLID principles and clean code practices (see Code Quality Standards rule)
+- Verify code meets all quality metrics: linting, type safety, proper naming, function size limits
+
+⚡ **Micro-Step Enforcement - NO SKIPPING**
+- **Before ANY production code**: STOP and verify failing test exists
+- **After EACH test**: Run test suite to verify current state
+- **After ANY code change**: Run static quality checks (linter, formatter, type checker)
+- **Before proceeding to next test**: Complete test quality inspection
+- **After ANY code change**: Verify all tests still pass
+- **Between workflow steps**: Explicit confirmation required
+- **After ANY refactor**: Run FULL test suite to ensure no regression
+- **After ANY refactor**: Run static quality checks to ensure code standards
+- **Before moving to next piece of work**: Confirm ALL existing tests still pass
+
+📋 **Test Design & Planning Requirements**
+- Break down problems into small, testable pieces of work
+- Think through ALL possible test cases before writing any code
+- Consider edge cases, error conditions, and boundary values
+- Write descriptive test names that explain the expected behavior
+- Ensure going over green on EVERY test case means the feature is well implemented
+
+🔍 **Documentation Research Requirements - MANDATORY**
+- **Before implementing ANY library feature**: Use Context7 MCP to get current documentation
+- **Resolve library ID**: Use `resolve-library-id` for proper library identification
+- **Get focused docs**: Use `get-library-docs` with specific topics relevant to implementation
+- **Verify current APIs**: Ensure implementation matches latest documentation
+- **Follow documented patterns**: Use current best practices from documentation
+
+🎯 **Mutation Testing Requirements**
+- Consider: "Would this test fail if I introduced a small bug in the code?"
+- Verify tests would catch common errors (off-by-one, null checks, wrong operators)
+- Ensure tests are not too coupled to implementation details
+- Tests should fail when business logic is broken, not just when signatures change
+
+🚫 **Test Integrity Rules - STRICTLY FORBIDDEN**
+- Modifying tests to make them pass (except for legitimate business requirement changes)
+- Commenting out failing tests to "fix" the build
+- Using excessive mocking that bypasses real implementation testing
+- Writing production code without seeing a test fail first
+- Any tricks or shortcuts to bypass proper TDD workflow
+- Proceeding to next test without quality inspection of current test
+- Skipping test execution at any step
+
+🔧 **Static Quality Checks - MANDATORY ENFORCEMENT**
+- **After EVERY code change**: Run linter and fix ALL errors/warnings
+- **Before proceeding**: Run formatter to ensure consistent code style
+- **Type Safety**: Run type checker (TypeScript, mypy, etc.) - zero type errors allowed
+- **Code Analysis**: Run static analysis tools (SonarQube, CodeClimate, etc.) if available
+- **Import Cleanup**: Verify no unused imports or variables remain
+- **Style Consistency**: Ensure code follows project style guidelines
+- **Security Checks**: Run security linters if available (eslint-security, bandit, etc.)
+- **NO EXCEPTIONS**: All static quality checks MUST pass before proceeding
+
+✅ **Test Quality Standards**
+- Test the REAL implementation, not mocked versions
+- Mock ONLY external dependencies, databases, APIs, or complex collaborators
+- Test the actual business logic and implementation details
+- Each test must verify specific, meaningful behavior
+- Tests must be independent and repeatable
+- Every test IS NEEDED - no test removal without business justification
+
+## Examples
+
+<example>
+  **Correct TDD Workflow with Quality Inspection:**
+  
+  Problem: Create user registration system
+  
+  **Step 1: Divide into small pieces**
+  - Piece 1: User creation with valid data
+  - Piece 2: Email validation
+  - Piece 3: Password requirements
+  
+  **Step 2: Plan test cases for Piece 1**
+  - Valid user data returns success
+  - User gets assigned unique ID
+  - User data is stored correctly
+  
+  **Step 3: Write ONE failing test**
+  ```typescript
+  describe('UserService', () => {
+    it('should create user with valid email and return user id', () => {
+      const userService = new UserService();
+      const userData = { email: 'test@example.com', name: 'John' };
+      
+      const result = userService.createUser(userData);
+      
+      expect(result.success).toBe(true);
+      expect(result.userId).toBeDefined();
+    });
+  });
+  ```
+  
+  **Step 4: Verify RED** - Run test, it fails (UserService doesn't exist)
+  
+  **Step 5: Write minimal GREEN code**
+  ```typescript
+  export class UserService {
+    createUser(userData: any) {
+      return { success: true, userId: 'temp-123' };
+    }
+  }
+  ```
+  
+  **Step 6: Verify GREEN** - Run test, it passes
+  
+  **Step 7: MANDATORY TEST QUALITY INSPECTION**
+  - ✅ Test covers intended behavior (user creation)
+  - ✅ Assertions are specific (success = true, userId defined)
+  - ✅ Test runs independently
+  - ✅ Would fail if implementation returned false or no userId
+  - ✅ Test name clearly describes behavior
+  - ✅ Testing real implementation, not mocks
+  
+  **Step 8: Refactor** - Improve if needed while keeping tests green
+  
+  **Step 9: Repeat** - Move to next test case for this piece
+</example>
+
+<example type="invalid">
+  **FORBIDDEN Approaches:**
+  
+  ❌ Writing production code first:
+  ```typescript
+  // FORBIDDEN: Writing implementation before test
+  export class UserService {
+    createUser(userData: UserData): CreateUserResult {
+      // Complex implementation without failing test first
+    }
+  }
+  ```
+  
+  ❌ Skipping test quality inspection:
+  ```typescript
+  // FORBIDDEN: Moving to next test without inspecting current test quality
+  it('should create user', () => {
+    expect(true).toBe(true); // Weak test
+  });
+  // Immediately writing next test without inspection
+  ```
+  
+  ❌ Poor quality tests that would pass inspection:
+  ```typescript
+  // FORBIDDEN: Test that doesn't actually test the implementation
+  it('should create user', () => {
+    const service = new UserService();
+    service.createUser({}); // No assertions, no verification
+  });
+  ```
+  
+  ❌ Modifying tests to cheat:
+  ```typescript
+  // FORBIDDEN: Changing test expectation to match broken code
+  expect(result.success).toBe(false); // Changed from true to false to pass
+  ```
+  
+  ❌ Over-mocking real logic:
+  ```typescript
+  // FORBIDDEN: Mocking the actual business logic being tested
+  jest.mock('./UserService', () => ({
+    createUser: jest.fn().mockReturnValue({ success: true })
+  }));
+  ```
+  
+  ❌ Commenting out failing tests:
+  ```typescript
+  // FORBIDDEN: Disabling tests to make build pass
+  // it('should validate email format', () => {
+  //   // Test commented out because implementation is incomplete
+  // });
+  ```
+  
+  ❌ Skipping workflow steps:
+  ```typescript
+  // FORBIDDEN: Writing multiple features without proper TDD cycle
+  class UserService {
+    createUser() { /* ... */ }
+    validateEmail() { /* ... */ }  // No failing test for this method
+    hashPassword() { /* ... */ }   // No failing test for this method
+  }
+  ```
+</example>

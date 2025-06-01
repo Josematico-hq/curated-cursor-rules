@@ -1,0 +1,144 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Test Planning Strategy
+
+## Critical Rules
+
+🎯 **TEST CASE IDENTIFICATION METHODOLOGY**
+- Use systematic approach to identify ALL possible test cases
+- Cover normal behavior, edge cases, and error conditions
+- Think like an attacker trying to break the system
+- Consider all input combinations and system states
+
+📋 **SYSTEMATIC TEST PLANNING PROCESS**
+1. **Happy Path Analysis**: What should work perfectly?
+2. **Input Boundary Analysis**: Test limits and boundaries
+3. **Error Condition Analysis**: What can go wrong?
+4. **State Analysis**: Different system states affecting behavior
+5. **Integration Analysis**: How does this interact with other components?
+6. **Security Analysis**: What could be exploited or abused?
+
+🔍 **TEST CASE CATEGORIES - MANDATORY COVERAGE**
+
+**Input Validation Tests:**
+- Valid inputs (multiple examples)
+- Invalid inputs (each type of invalid)
+- Boundary values (min, max, just above, just below)
+- Null/undefined/empty inputs
+- Malformed inputs
+- Extremely large inputs
+
+**Business Logic Tests:**
+- Expected behavior with valid data
+- Edge cases in business rules
+- Conditional logic branches
+- State transitions
+- Calculation accuracy
+
+**Error Handling Tests:**
+- Expected error conditions
+- Unexpected error conditions  
+- Error message clarity
+- Graceful failure modes
+- Recovery scenarios
+
+**Integration Tests:**
+- External service success
+- External service failures
+- Network timeouts
+- Data format mismatches
+- Service unavailable scenarios
+
+⚡ **BOUNDARY VALUE ANALYSIS**
+- **Numeric boundaries**: -1, 0, 1, max-1, max, max+1
+- **String boundaries**: empty, single char, max length, over max
+- **Collection boundaries**: empty, single item, max size, over max
+- **Date boundaries**: past, present, future, edge dates
+
+🚨 **COMPLETENESS CRITERIA**
+- Can you think of a way this could fail that isn't tested?
+- Does every conditional branch have a test?
+- Are all error conditions covered?
+- Would a malicious user find an untested attack vector?
+- Are integration points thoroughly tested?
+
+## Examples
+
+<example>
+  **Correct Test Planning:**
+  
+  **Piece**: Email Validation for User Registration
+  
+  **Step 1: Happy Path Analysis**
+  - Valid email formats are accepted
+  - Common email providers work
+  - International domains work
+  
+  **Step 2: Input Boundary Analysis**
+  - Empty email string
+  - Very long email (near max length)
+  - Very short email
+  - Email at exact max length
+  - Email over max length
+  
+  **Step 3: Error Condition Analysis**
+  - Missing @ symbol
+  - Multiple @ symbols
+  - Missing domain
+  - Invalid domain formats
+  - Invalid characters
+  - Leading/trailing spaces
+  
+  **Step 4: Test Case List**
+  1. Valid email formats:
+     - Standard format: user@domain.com
+     - Subdomain: user@mail.domain.com  
+     - International: user@domain.co.uk
+     - Plus addressing: user+tag@domain.com
+  
+  2. Invalid email formats:
+     - No @ symbol: userdomain.com
+     - Multiple @: user@@domain.com
+     - No domain: user@
+     - No local part: @domain.com
+     - Invalid chars: user@domain.c
+     - Spaces: user @domain.com
+  
+  3. Boundary conditions:
+     - Empty string
+     - Single character
+     - Max length valid email
+     - Over max length email
+  
+  4. Edge cases:
+     - Consecutive dots: user..name@domain.com
+     - Starting with dot: .user@domain.com
+     - Ending with dot: user.@domain.com
+</example>
+
+<example type="invalid">
+  **FORBIDDEN - Incomplete Test Planning:**
+  
+  ❌ Only happy path:
+  "I'll test that valid emails work."
+  [Ignores error conditions and edge cases]
+  
+  ❌ Vague test ideas:
+  "Test some invalid emails."
+  [Not systematic, likely to miss cases]
+  
+  ❌ No boundary analysis:
+  "Test normal email validation."
+  [Doesn't consider boundaries and limits]
+  
+  ❌ Missing error scenarios:
+  "Test valid and invalid emails."
+  [Doesn't specify what "invalid" means]
+  
+  ❌ No integration consideration:
+  "Just test the validation function."
+  [Ignores how it integrates with the system]
+</example>

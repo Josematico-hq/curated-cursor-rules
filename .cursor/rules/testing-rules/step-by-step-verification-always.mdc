@@ -1,0 +1,189 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Step-by-Step Verification Protocol
+
+## Critical Rules
+
+🛑 **MANDATORY MICRO-STEP CONFIRMATIONS**
+- NEVER assume a step was completed - explicitly verify each step
+- NEVER proceed to next step without confirming current step success
+- State explicitly what you are about to do before doing it
+- State explicitly what you just accomplished after doing it
+
+🔍 **Required Verification Checkpoints**
+- **Before writing ANY code**: "I will first get current documentation for [library/technology] using Context7 MCP"
+- **After documentation lookup**: "Documentation retrieved. I will now write a failing test for [specific test case within current piece of work]"
+- **After writing test**: "Test written. I will now run it to verify it fails."
+- **After test fails**: "Test fails as expected because [specific reason]. I will now write minimal production code using current documentation."
+- **After writing production code**: "Production code written following current documentation. I will now run static quality checks, then run the test to verify it passes, then run full test suite for regression testing."
+- **After static checks pass**: "All static quality checks passed (linting, formatting, type checking). I will now run the test to verify it passes."
+- **After test passes**: "Test passes. I will now run full test suite to ensure no regressions."
+- **After regression testing**: "Full test suite passed - no regressions detected. I will now inspect test quality before proceeding."
+- **After test quality inspection**: "Test quality verified. Do I need more tests for this piece of work? [Yes/No and reasoning]"
+- **If more tests needed**: "I will now write the next test for this same piece of work: [specific test case]"
+- **If piece complete**: "All test cases for current piece of work are covered. I will now refactor if needed."
+- **After refactor**: "Refactoring complete. I will now run static quality checks, then run full test suite to verify all tests still pass and no regressions introduced."
+- **Before next piece**: "Current piece of work is complete. Moving to next piece: [describe next piece]"
+
+⚡ **No Assumption Rules**
+- NEVER assume tests will pass without running them
+- NEVER assume code compiles without verification
+- NEVER assume previous tests still pass after changes
+- NEVER assume test quality is sufficient without inspection
+- NEVER assume next step is ready without explicit confirmation
+
+📋 **Critical Distinction: Piece of Work vs Test Cases**
+- **Piece of Work**: A cohesive functionality unit (e.g., "User creation with valid data")
+- **Test Cases**: Individual tests needed to fully cover that piece (e.g., "returns success", "assigns ID", "stores data")
+- **ONE piece of work** may require **MULTIPLE test cases** for complete coverage
+- Only move to next piece of work when ALL test cases for current piece are complete
+- Write test cases ONE BY ONE within each piece of work
+
+🎯 **Explicit State Communication**
+- Always communicate current state: "Currently all tests are passing"
+- Always communicate next action: "I will now write a test for X"
+- Always communicate results: "Test failed because Y"
+- Always communicate decisions: "I choose to refactor Z because..."
+
+🚨 **Stop Points - MANDATORY PAUSES**
+- PAUSE after writing each test and verify it fails (continue naturally)
+- PAUSE after writing production code and verify test passes (continue naturally)
+- PAUSE after each refactor and verify all tests still pass (continue naturally)
+- PAUSE before proceeding to next test case within same piece and complete quality inspection (continue naturally)
+- STOP only when moving to next piece of work (wait for explicit confirmation)
+- STOP if any assumption needs to be verified (wait for clarification)
+
+## Examples
+
+<example>
+  **Correct Step-by-Step Communication with Multiple Tests per Piece:**
+  
+  "I will now implement user creation following TDD:
+  
+  **Step 1 - Problem Division:**
+  I have divided the user creation feature into these pieces of work:
+  - Piece 1: User creation with valid data (needs multiple test cases)
+  - Piece 2: User creation with invalid email 
+  - Piece 3: User creation with duplicate email
+  
+  **Step 2 - Test Cases for Piece 1 (Valid Data):**
+  For 'User creation with valid data', I identified these test cases:
+  - Test Case A: User creation returns success status
+  - Test Case B: User gets assigned unique ID  
+  - Test Case C: User data is stored with correct values
+  
+  **Step 3 - Documentation Research:**
+  I will first get current documentation for Express.js user management using Context7 MCP.
+  [Resolve library ID] - Resolved to: /expressjs/express
+  [Get documentation] - Retrieved current Express.js documentation focused on 'user management' and 'routing'
+  Documentation confirmed current best practices for user creation endpoints.
+  
+  **Step 4 - First Test (Test Case A):**
+  Documentation retrieved. I will now write a failing test for 'User creation returns success status'
+  
+  ```typescript
+  it('should return success status when creating user with valid data', () => {
+    const service = new UserService();
+    const result = service.createUser({email: 'test@test.com', name: 'John'});
+    expect(result.success).toBe(true);
+  });
+  ```
+  
+  **Step 5 - Verify Red:**
+  I will now run this test to verify it fails.
+  [Run test]
+  Test failed as expected because UserService class doesn't exist yet.
+  
+  **Step 6 - Write Production Code:**
+  I will now write minimal production code to make this test pass.
+  
+  ```typescript
+  export class UserService {
+    createUser(userData: any) {
+      return { success: true };
+    }
+  }
+  ```
+  
+  **Step 7 - Static Quality Checks:**
+  I will now run static quality checks before testing.
+  [Run linter] - ✅ No linting errors
+  [Run formatter] - ✅ Code formatted correctly  
+  [Run type checker] - ✅ No type errors
+  All static quality checks passed.
+  
+  **Step 8 - Verify Green:**
+  I will now run the test to verify it passes, then run full test suite for regression testing.
+  [Run test] - Test passes
+  [Run full suite] - All tests pass, no regressions
+  
+  **Step 9 - Test Quality Inspection:**
+  Test quality verified. Do I need more tests for this piece of work? 
+  YES - I still need to test that user gets unique ID and data is stored correctly.
+  
+  **Step 10 - Next Test (Test Case B):**
+  I will now write the next test for this same piece of work: 'User gets assigned unique ID'
+  
+  ```typescript
+  it('should assign unique ID when creating user', () => {
+    const service = new UserService();
+    const result = service.createUser({email: 'test@test.com', name: 'John'});
+    expect(result.userId).toBeDefined();
+    expect(typeof result.userId).toBe('string');
+  });
+  ```
+  
+  [Continue TDD cycle for this test...]
+  
+  **Step 11 - After Test Case B Complete:**
+  Test quality verified. Do I need more tests for this piece of work?
+  YES - I still need to test that user data is stored correctly.
+  
+  **Step 12 - Final Test (Test Case C):**
+  I will now write the next test for this same piece of work: 'User data is stored with correct values'
+  
+  [Continue TDD cycle...]
+  
+  **Step 13 - Piece Complete:**
+  Test quality verified. Do I need more tests for this piece of work?
+  NO - All test cases for 'User creation with valid data' are now covered:
+  ✅ Success status is returned
+  ✅ Unique ID is assigned  
+  ✅ User data is stored correctly
+  
+  All test cases for current piece of work are covered. I will now refactor if needed.
+  
+  **Step 14 - Ready for Next Piece:**
+  Current piece of work is complete. Moving to next piece: 'User creation with invalid email'"
+</example>
+
+<example type="invalid">
+  **FORBIDDEN - Skipping Verification Steps:**
+  
+  ❌ Making assumptions:
+  "I'll write a test and some code to implement user creation."
+  [Writes both test and production code without verification]
+  
+  ❌ Not stating intentions:
+  ```typescript
+  // Just writing code without stating what you're doing
+  class UserService {
+    createUser() { return true; }
+  }
+  ```
+  
+  ❌ Assuming test results:
+  "I wrote a test and it probably fails, so I'll write the production code now."
+  
+  ❌ Skipping quality inspection:
+  "Test passes, moving to next feature."
+  
+  ❌ Not communicating state:
+  [Writing multiple tests and production code without explaining current state]
+  
+  ❌ Proceeding without confirmation:
+  "This should work, let me continue with the next part."
+</example>

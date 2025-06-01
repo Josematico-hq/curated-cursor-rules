@@ -1,0 +1,159 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Code Quality Standards
+
+## Critical Rules
+
+🎯 **SOLID Principles - Mandatory Application**
+- **Single Responsibility**: Each class/function has ONE reason to change
+- **Open/Closed**: Open for extension, closed for modification
+- **Liskov Substitution**: Derived classes must be substitutable for base classes
+- **Interface Segregation**: No client should depend on methods it doesn't use
+- **Dependency Inversion**: Depend on abstractions, not concretions
+
+📐 **Clean Code Practices - Non-Negotiable**
+- **Meaningful Names**: Variables, functions, classes have descriptive, intention-revealing names
+- **Function Size**: Functions should be small (ideally <20 lines, max 50 lines)
+- **Function Parameters**: Maximum 3 parameters (use objects for more)
+- **Cognitive Complexity**: Keep cyclomatic complexity low (<10 per function)
+- **DRY Principle**: Don't Repeat Yourself - extract common logic
+- **No Magic Numbers**: Use named constants instead of hardcoded values
+- **Consistent Formatting**: Follow language-specific style guides
+
+🔍 **Code Quality Metrics - Must Pass**
+- **Test Coverage**: Minimum 80% line coverage for business logic
+- **Linting**: Zero linting errors using standard tools (ESLint, Pylint, etc.)
+- **Type Safety**: Use strong typing, avoid `any` type in TypeScript
+- **Error Handling**: Proper exception handling, no silent failures
+- **Documentation**: Public APIs and complex logic must be documented
+- **Performance**: No obvious performance anti-patterns (N+1 queries, unnecessary loops)
+
+🚫 **Code Quality Violations - Forbidden**
+- Unused variables, imports, or functions
+- Dead code or commented-out code blocks
+- Deeply nested code (>3 levels of indentation)
+- Long parameter lists (>3 parameters)
+- God classes (>300 lines) or god functions (>50 lines)
+- Hardcoded strings, numbers, or configuration values
+- Missing error handling in critical paths
+- Copy-paste code duplication
+
+✅ **Quality Verification Steps**
+- Run static analysis tools (linter, formatter) before completion
+- Verify all imports are used and necessary
+- Check for proper error handling and edge cases
+- Ensure code follows established patterns in the codebase
+- Validate performance implications of the implementation
+- Confirm code is self-documenting or properly commented
+
+🎨 **Language-Specific Quality Standards**
+
+**TypeScript/JavaScript:**
+- Use strict TypeScript settings
+- Prefer `const` over `let`, avoid `var`
+- Use modern ES6+ features appropriately
+- Implement proper async/await error handling
+
+**Python:**
+- Follow PEP 8 style guide
+- Use type hints for function signatures
+- Implement proper exception handling
+- Use list/dict comprehensions appropriately
+
+**General:**
+- Follow established naming conventions for the language
+- Use appropriate data structures for the use case
+- Implement proper resource cleanup (close files, connections)
+- Handle null/undefined values explicitly
+
+## Examples
+
+<example>
+  **High Quality Code:**
+  
+  ```typescript
+  interface UserRepository {
+    findById(id: string): Promise<User | null>;
+    save(user: User): Promise<void>;
+  }
+  
+  class UserService {
+    constructor(private userRepo: UserRepository) {}
+    
+    async activateUser(userId: string): Promise<ActivationResult> {
+      try {
+        const user = await this.userRepo.findById(userId);
+        if (!user) {
+          return { success: false, error: 'User not found' };
+        }
+        
+        if (user.isActive) {
+          return { success: false, error: 'User already active' };
+        }
+        
+        user.activate();
+        await this.userRepo.save(user);
+        
+        return { success: true };
+      } catch (error) {
+        return { success: false, error: 'Activation failed' };
+      }
+    }
+  }
+  ```
+  
+  **Quality Indicators:**
+  - Single responsibility (user activation only)
+  - Dependency injection (testable)
+  - Proper error handling
+  - Meaningful names
+  - Type safety
+  - Small function size
+</example>
+
+<example type="invalid">
+  **Poor Quality Code:**
+  
+  ```typescript
+  // FORBIDDEN: Multiple quality violations
+  class UserManager {
+    db: any; // No type safety
+    
+    // God function with multiple responsibilities
+    doUserStuff(id, type, data, flag1, flag2, options) {
+      if (type == 1) { // Magic number
+        try {
+          let user = this.db.query("SELECT * FROM users WHERE id = " + id); // SQL injection risk
+          if (user) {
+            if (flag1) {
+              if (flag2) {
+                if (options.activate) { // Deep nesting
+                  user.status = "active"; // Hardcoded string
+                  this.db.update(user);
+                  // Missing error handling
+                }
+              }
+            }
+          }
+        } catch (e) {
+          // Silent failure
+        }
+      }
+      // Copy-paste code for type 2...
+    }
+  }
+  ```
+  
+  **Quality Violations:**
+  - No type safety (`any` type)
+  - Magic numbers and hardcoded strings
+  - SQL injection vulnerability
+  - Deep nesting (>3 levels)
+  - Too many parameters (>3)
+  - Multiple responsibilities
+  - Silent error handling
+  - Missing meaningful names
+</example>

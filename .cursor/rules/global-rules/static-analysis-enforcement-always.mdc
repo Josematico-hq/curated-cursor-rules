@@ -1,0 +1,130 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Static Analysis Enforcement
+
+## Critical Rules
+
+🔧 **MANDATORY STATIC CHECKS - NO EXCEPTIONS**
+- Run ALL available static analysis tools after EVERY code change
+- ZERO tolerance for linting errors, warnings, or style violations
+- ALL static quality checks MUST pass before proceeding with any workflow step
+- Use static analysis to catch violations of coding rules and standards
+
+🛠️ **Required Static Analysis Tools**
+- **Linter**: ESLint (JS/TS), Pylint (Python), RuboCop (Ruby), etc.
+- **Formatter**: Prettier, Black, gofmt, rustfmt - enforce consistent style
+- **Type Checker**: TypeScript compiler, mypy, Flow - ensure type safety
+- **Import Analyzer**: Detect unused imports, circular dependencies
+- **Security Linter**: eslint-plugin-security, bandit, brakeman
+- **Code Quality**: SonarQube, CodeClimate, Codacy (if available)
+
+⚡ **Execution Points - MANDATORY**
+- **After writing ANY production code**: Run full static analysis suite
+- **After writing ANY test code**: Run full static analysis suite  
+- **After ANY refactor**: Run full static analysis suite
+- **Before test execution**: Ensure code passes all static checks
+- **Before committing**: Final static analysis verification
+
+🚨 **Failure Protocol**
+- **If ANY static check fails**: STOP immediately and fix
+- **Fix ALL errors and warnings**: No proceeding with failing checks
+- **Re-run checks**: Verify ALL issues resolved
+- **Document fixes**: Explain what was corrected and why
+
+📋 **Specific Check Requirements**
+
+**Linting:**
+- Zero linting errors allowed
+- Zero linting warnings allowed  
+- Follow project-specific linting rules
+- Use strict linting configurations
+
+**Formatting:**
+- Code must be consistently formatted
+- Use automated formatters when available
+- Follow language-specific style guides
+- Maintain consistent indentation and spacing
+
+**Type Safety:**
+- Zero type errors in typed languages
+- Use strict type checking settings
+- Avoid `any` types in TypeScript
+- Proper type annotations in Python
+
+**Import Management:**
+- Remove ALL unused imports
+- Remove ALL unused variables
+- No dead code or commented code blocks
+- Proper import organization
+
+🎯 **Integration with TDD Workflow**
+- Static checks are PART of the Green phase
+- Cannot proceed to quality inspection without passing static analysis
+- Refactoring includes fixing any static analysis issues
+- Static checks are prerequisite for regression testing
+
+## Examples
+
+<example>
+  **Correct Static Analysis Integration:**
+  
+  "I have written the production code. Before running tests, I will perform static analysis:
+  
+  **Step 1: Linting**
+  Running ESLint...
+  ✅ 0 errors, 0 warnings - All linting rules satisfied
+  
+  **Step 2: Formatting**  
+  Running Prettier...
+  ✅ Code formatted according to project standards
+  
+  **Step 3: Type Checking**
+  Running TypeScript compiler...
+  ✅ 0 type errors - All types properly defined
+  
+  **Step 4: Import Analysis**
+  Checking for unused imports...
+  ✅ All imports are used, no dead code detected
+  
+  **Step 5: Security Checks**
+  Running security linter...
+  ✅ No security vulnerabilities detected
+  
+  **All static analysis checks passed. Now proceeding to run tests.**"
+</example>
+
+<example type="invalid">
+  **FORBIDDEN - Ignoring Static Analysis:**
+  
+  ❌ Skipping static checks:
+  "Code written, running tests now."
+  [Proceeds without linting or formatting]
+  
+  ❌ Ignoring linting errors:
+  "ESLint shows 3 errors but they're not important."
+  [Continues with failing static checks]
+  
+  ❌ Accepting warnings:
+  "Only warnings, not errors, so it's fine."
+  [Proceeds with linting warnings]
+  
+  ❌ Manual formatting:
+  "I'll format it myself instead of using Prettier."
+  [Skips automated formatting tools]
+  
+  ❌ Type safety shortcuts:
+  ```typescript
+  // FORBIDDEN: Using any to bypass type checking
+  const data: any = getUserData();
+  ```
+  
+  ❌ Leaving unused imports:
+  ```typescript
+  // FORBIDDEN: Unused imports remain
+  import { unusedFunction } from './utils';
+  import React from 'react'; // Not using React
+  ```
+</example>

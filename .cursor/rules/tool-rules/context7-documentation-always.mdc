@@ -1,0 +1,135 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Context7 Documentation Requirements
+
+## Critical Rules
+
+🔍 **MANDATORY DOCUMENTATION LOOKUP**
+- ALWAYS use Context7 MCP for technology documentation before implementing code
+- NEVER rely solely on training data for library/framework information
+- ALWAYS verify current API documentation and best practices
+- REQUIRED for any library, framework, or technology implementation
+
+📚 **When to Use Context7 MCP - MANDATORY**
+- **Before implementing any library/framework**: Get current documentation
+- **When encountering API questions**: Verify latest API specifications
+- **For best practices**: Get up-to-date implementation patterns
+- **When debugging**: Check current known issues and solutions
+- **For configuration**: Verify latest configuration options
+- **Version-specific features**: Get documentation for specific versions
+
+🛠️ **Required MCP Workflow**
+1. **Identify Technology**: Determine exact library/framework name
+2. **Resolve Library ID**: Use `resolve-library-id` to get Context7-compatible ID
+3. **Get Current Docs**: Use `get-library-docs` with resolved ID
+4. **Specify Topic**: Include relevant topic for focused documentation
+5. **Apply Documentation**: Use current docs for implementation
+
+⚡ **Execution Requirements**
+- **Before ANY code implementation**: Fetch relevant documentation
+- **When APIs change**: Get updated documentation 
+- **For troubleshooting**: Check latest documentation for solutions
+- **Version upgrades**: Get documentation for new version
+- **Best practice verification**: Confirm current recommended approaches
+
+🎯 **Topic Specification Guidelines**
+- **Be specific**: Use focused topics like "hooks", "routing", "authentication"
+- **Match implementation**: Topic should align with what you're implementing
+- **Multiple topics**: Use separate calls for different implementation areas
+- **Version context**: Include version-specific topics when relevant
+
+🚨 **Documentation Quality Requirements**
+- **Verify recency**: Ensure documentation is current and relevant
+- **Cross-reference**: Compare with multiple sources when available
+- **Version alignment**: Match documentation version with project requirements
+- **API compatibility**: Verify API calls match current documentation
+
+📋 **Integration Points**
+- **With TDD**: Get documentation before writing tests for library features
+- **With Code Quality**: Ensure implementations follow documented best practices
+- **With Architecture**: Verify library capabilities before design decisions
+- **With Debugging**: Check documentation for known issues and solutions
+
+## Examples
+
+<example>
+  **Correct Context7 MCP Usage:**
+  
+  "I need to implement React hooks for user authentication. Let me get the latest documentation:
+  
+  **Step 1: Resolve Library ID**
+  Using resolve-library-id for 'React'...
+  Resolved to: /facebook/react
+  
+  **Step 2: Get Documentation**
+  Using get-library-docs with:
+  - Library ID: /facebook/react
+  - Topic: 'hooks'
+  - Tokens: 8000
+  
+  **Step 3: Apply Current Documentation**
+  Based on the latest React documentation retrieved:
+  - Using current hook patterns and best practices
+  - Following latest API specifications
+  - Implementing recommended error handling
+  
+  Now proceeding with TDD implementation using current documentation."
+</example>
+
+<example type="invalid">
+  **FORBIDDEN - Skipping Documentation Lookup:**
+  
+  ❌ Relying on training data only:
+  "I'll implement React hooks based on what I know."
+  [Proceeds without getting current documentation]
+  
+  ❌ Making assumptions about APIs:
+  "This library probably works like this..."
+  [Implements without verifying current API]
+  
+  ❌ Using outdated patterns:
+  "I'll use the old way of doing this."
+  [Doesn't check for updated best practices]
+  
+  ❌ Ignoring version differences:
+  "The API should be the same across versions."
+  [Doesn't get version-specific documentation]
+  
+  ❌ Generic documentation requests:
+  ```
+  // FORBIDDEN: Too broad, not focused
+  get-library-docs('/some/library') // No topic specified
+  ```
+  
+  ❌ Skipping library resolution:
+  ```
+  // FORBIDDEN: Using assumed library ID
+  get-library-docs('/assumed/library/path')
+  ```
+</example>
+
+## Technology Coverage
+
+**Web Frameworks:**
+- React, Vue, Angular, Svelte
+- Next.js, Nuxt, SvelteKit
+- Express, Fastify, Koa
+
+**Backend Technologies:**
+- Node.js, Python frameworks (Django, Flask, FastAPI)
+- Database libraries (Prisma, Sequelize, SQLAlchemy)
+- Authentication libraries (Auth0, Firebase Auth, Passport)
+
+**Development Tools:**
+- Build tools (Vite, Webpack, Rollup)
+- Testing frameworks (Jest, Vitest, Pytest)
+- Deployment platforms (Vercel, Netlify, AWS)
+
+**Mobile & Desktop:**
+- React Native, Flutter, Electron
+- Native iOS/Android frameworks
+
+**Any Technology:** If it has documentation, use Context7 MCP to get current information

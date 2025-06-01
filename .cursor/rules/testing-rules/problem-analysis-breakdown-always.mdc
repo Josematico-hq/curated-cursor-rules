@@ -1,0 +1,138 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Problem Analysis & Breakdown Methodology
+
+## Critical Rules
+
+🎯 **DECOMPOSITION PRINCIPLES**
+- Break problems into pieces that can be implemented in 15-30 minutes
+- Each piece should have clear, testable outcomes
+- Pieces should be independent but may have dependencies
+- Focus on single responsibility per piece
+
+📋 **BREAKDOWN METHODOLOGY**
+1. **Identify Core Functionality**: What is the main goal?
+2. **List Dependencies**: What technologies/systems are involved?
+3. **Define User Interactions**: How will users interact with this feature?
+4. **Identify Data Flow**: What data goes in and comes out?
+5. **Extract Edge Cases**: What can go wrong or be unexpected?
+6. **Prioritize by Risk**: Start with highest risk/uncertainty pieces
+
+🔍 **PIECE SIZE CRITERIA**
+- **Single Behavior**: Each piece tests one specific behavior
+- **Clear Success**: Obvious when the piece is "done"
+- **Testable**: Can write meaningful tests for the piece
+- **Independent**: Can be developed without other pieces (mostly)
+- **Small Scope**: Limited complexity and surface area
+
+⚡ **COMPLEXITY ASSESSMENT**
+- **Simple**: Basic CRUD operations, simple validations
+- **Medium**: Business logic with conditions, multiple validations
+- **Complex**: Integration with external systems, complex algorithms
+- **High**: Security features, performance-critical code, error recovery
+
+🚨 **BREAKDOWN REQUIREMENTS**
+- NEVER start coding without clear piece breakdown
+- NEVER attempt pieces larger than 30 minutes of work
+- ALWAYS identify dependencies between pieces
+- ALWAYS start with highest risk/uncertainty pieces first
+
+## Examples
+
+<example>
+  **Correct Problem Breakdown:**
+  
+  **Problem**: User Registration System
+  
+  **Step 1: Core Functionality Analysis**
+  - Users can create accounts with email/password
+  - Email verification required
+  - Password strength requirements
+  - Duplicate email prevention
+  
+  **Step 2: Piece Breakdown**
+  1. **User Creation with Valid Data** (Simple - 15 min)
+     - Valid email and password creates user
+     - User gets unique ID
+     - Basic data storage
+  
+  2. **Email Format Validation** (Simple - 10 min)
+     - Invalid email formats rejected
+     - Clear error messages
+  
+  3. **Password Strength Validation** (Medium - 20 min)
+     - Length requirements
+     - Character requirements
+     - Strength feedback
+  
+  4. **Duplicate Email Prevention** (Medium - 25 min)
+     - Check existing emails
+     - Reject duplicates
+     - Appropriate error handling
+  
+  5. **Email Verification Flow** (Complex - 30 min)
+     - Generate verification tokens
+     - Send verification emails
+     - Token validation
+  
+  **Step 3: Dependency Identification**
+  - Email service (external dependency)
+  - Database for user storage
+  - Token generation utility
+  
+  **Step 4: Priority Order**
+  Start with: User Creation → Email Validation → Password Validation → Duplicate Prevention → Email Verification
+</example>
+
+<example type="invalid">
+  **FORBIDDEN - Poor Breakdown:**
+  
+  ❌ Too large pieces:
+  "I'll implement the entire user registration system."
+  [Attempts to do everything at once]
+  
+  ❌ Vague pieces:
+  "Handle user input validation."
+  [Not specific enough to test]
+  
+  ❌ Dependent pieces:
+  "Implement email verification first."
+  [Requires user creation to be done first]
+  
+  ❌ No risk assessment:
+  "I'll do the easy stuff first."
+  [Avoids complex pieces that might reveal problems]
+  
+  ❌ No clear outcomes:
+  "Work on user management stuff."
+  [No clear success criteria]
+</example>
+
+## Breakdown Templates
+
+**CRUD Operations:**
+- Create with valid data
+- Create with invalid data  
+- Read existing items
+- Read non-existent items
+- Update valid changes
+- Update invalid changes
+- Delete existing items
+- Delete non-existent items
+
+**Validation Features:**
+- Valid input acceptance
+- Invalid input rejection
+- Edge case handling
+- Error message clarity
+- Boundary value testing
+
+**Integration Features:**
+- Happy path integration
+- Error response handling
+- Timeout handling
+- Service unavailable scenarios
+- Data transformation
