@@ -1,0 +1,166 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# AI Context Persistence & Project Memory Management
+
+## Critical Rules
+
+🧠 **MANDATORY CONTEXT FOLDER CREATION & MAINTENANCE**
+- Create `ai_context/` folder in project root if not exists
+- ALWAYS read from ai_context folder before starting any work
+- ALWAYS update ai_context folder after completing any significant task
+- Treat ai_context as the project's persistent memory across AI conversations
+
+📋 **REQUIRED AI CONTEXT FILES**
+- **`ai_context/project_status.md`** - Current project state, decisions, and characteristics
+- **`ai_context/task_log.md`** - Chronological log of all AI-completed tasks
+- **`ai_context/architecture_decisions.md`** - Technical decisions and architectural choices
+- **`ai_context/code_conventions.md`** - Project-specific coding standards and patterns
+- **`ai_context/dependencies.md`** - Library choices, versions, and integration decisions
+- **`ai_context/known_issues.md`** - Current bugs, limitations, and technical debt
+
+🔄 **CONTEXT READING PROTOCOL - MANDATORY BEFORE ANY WORK**
+- Read `project_status.md` to understand current state and active decisions
+- Review `task_log.md` to see recent changes and context
+- Check `architecture_decisions.md` for technical constraints
+- Verify `code_conventions.md` for style and pattern requirements
+- Understand active dependencies from `dependencies.md`
+- Be aware of limitations from `known_issues.md`
+
+✍️ **CONTEXT UPDATING PROTOCOL - MANDATORY AFTER ANY WORK**
+- Update `project_status.md` with new state and progress
+- Add completed task to `task_log.md` with timestamp and details
+- Record any new architectural decisions in `architecture_decisions.md`
+- Update `code_conventions.md` if new patterns are established
+- Log dependency changes in `dependencies.md`
+- Update `known_issues.md` if bugs are fixed or new issues discovered
+
+🚨 **DECISION CONSISTENCY ENFORCEMENT**
+- NEVER contradict decisions recorded in ai_context files
+- NEVER change architectural patterns without updating architecture_decisions.md
+- NEVER ignore established conventions from code_conventions.md
+- NEVER make decisions that conflict with project characteristics
+- If change is needed, UPDATE the ai_context files first, then implement
+
+🎯 **CONTEXT FILE STRUCTURE REQUIREMENTS**
+
+**project_status.md format:**
+```markdown
+# Project Status
+
+## Current Phase
+[Development phase and goals]
+
+## Active Features
+[Features currently being developed]
+
+## Project Characteristics
+[Key project traits and philosophy]
+
+## Recent Decisions
+[Important decisions affecting project direction]
+
+## Next Steps
+[Planned upcoming work]
+
+## Last Updated
+[Timestamp and who updated]
+```
+
+**task_log.md format:**
+```markdown
+# AI Task Log
+
+## [YYYY-MM-DD HH:MM] - Task Description
+- **Completed**: [What was accomplished]
+- **Changes**: [Files modified, patterns established]
+- **Decisions**: [Important choices made]
+- **Impact**: [How this affects future development]
+```
+
+📊 **CONTEXT VALIDATION RULES**
+- Validate ai_context folder exists before starting work
+- Confirm all required files are present and readable
+- Verify information is current and relevant
+- Check for conflicts between different context files
+- Ensure decisions are internally consistent
+
+🔍 **CONTEXT INFORMATION CATEGORIES**
+
+**Technical Context:**
+- Architecture patterns and principles
+- Database schema and data flow
+- API design and integration patterns
+- Performance considerations and constraints
+- Security requirements and implementation
+
+**Development Context:**
+- Code organization and module structure
+- Testing strategies and coverage requirements
+- Build and deployment processes
+- Development environment setup
+- Debugging and monitoring approaches
+
+**Business Context:**
+- Feature priorities and user needs
+- Business rules and constraints
+- Integration requirements
+- Performance and scalability goals
+- Timeline and milestone commitments
+
+## Examples
+
+<example>
+  **Correct Context Management Workflow:**
+  
+  "I will start by reading the ai_context folder to understand the current project state:
+  
+  **Step 1: Context Reading**
+  - Reading ai_context/project_status.md...
+  - Current phase: Authentication module development
+  - Active decisions: Using JWT with refresh tokens, PostgreSQL for user data
+  - Established patterns: Repository pattern, dependency injection
+  
+  **Step 2: Task Execution**
+  - Implementing user login following established JWT pattern
+  - Using repository pattern as documented in architecture_decisions.md
+  - Following naming conventions from code_conventions.md
+  
+  **Step 3: Context Updating**
+  - Updated project_status.md: Authentication module 80% complete
+  - Added to task_log.md: User login implementation with JWT validation
+  - No new architectural decisions - followed existing patterns"
+</example>
+
+<example type="invalid">
+  **FORBIDDEN - Ignoring Context:**
+  
+  ❌ Starting work without reading context:
+  "I'll implement user authentication using sessions."
+  [Ignores ai_context files that specify JWT approach]
+  
+  ❌ Contradicting established decisions:
+  "Let's switch from PostgreSQL to MongoDB for user data."
+  [Conflicts with documented architecture decision]
+  
+  ❌ Not updating context after work:
+  "Authentication feature implemented successfully."
+  [Completes work without updating ai_context files]
+  
+  ❌ Changing patterns without documentation:
+  ```typescript
+  // FORBIDDEN: Using different pattern without updating conventions
+  class UserController {
+    // Direct database access instead of repository pattern
+    async login() {
+      return await db.users.findOne();
+    }
+  }
+  ```
+  
+  ❌ Missing context validation:
+  "I'll continue with the feature development."
+  [Proceeds without checking if ai_context folder exists]
+</example>

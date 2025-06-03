@@ -13,6 +13,7 @@ This repository contains a meticulously crafted rule system that transforms your
 - ✅ **Step-by-Step Verification** - Every step confirmed before proceeding
 - ✅ **Regression Prevention** - Full test suite validation after changes
 - ✅ **SOLID Principles Enforcement** - Clean code practices mandatory
+- ✅ **AI Context Persistence** - Maintains project memory across conversations
 
 ## 🚀 Quick Start
 
@@ -44,11 +45,13 @@ Once installed, Cursor will **automatically enforce**:
 - Current documentation lookup for any library usage
 - Comprehensive test planning and execution
 - Professional code quality standards
+- Persistent project context and decision tracking
 
 ## 📁 Rule Categories
 
 ### 🎯 Core Rules (`core-rules/`)
 - **`master-development-workflow-always.mdc`** - Orchestrates all development activities
+- **`ai-context-persistence-always.mdc`** - Maintains project memory across AI conversations
 - **`rule-generating-agent.mdc`** - Guidelines for extending the rule system
 
 ### 🧪 Testing Rules (`testing-rules/`)
@@ -69,22 +72,24 @@ Once installed, Cursor will **automatically enforce**:
 ## 🔄 Development Workflow Enforced
 
 ### Phase 1: Preparation & Research
-1. **Problem Analysis** - Break into small, testable pieces
-2. **Documentation Research** - Get current docs via Context7 MCP
-3. **Test Case Planning** - Identify ALL possible test scenarios
+1. **Context Reading** - Read ai_context folder for project state and decisions
+2. **Problem Analysis** - Break into small, testable pieces
+3. **Documentation Research** - Get current docs via Context7 MCP
+4. **Test Case Planning** - Identify ALL possible test scenarios
 
 ### Phase 2: TDD Cycle (For Each Piece)
-4. **Write Failing Test** - One test for current functionality
-5. **Verify Red** - Confirm test fails for right reason
-6. **Write Production Code** - Minimal code to pass test
-7. **Static Quality Checks** - Linting, formatting, type safety
-8. **Verify Green** - Confirm test passes
-9. **Regression Testing** - Full test suite validation
-10. **Test Quality Inspection** - Ensure test effectiveness
+5. **Write Failing Test** - One test for current functionality
+6. **Verify Red** - Confirm test fails for right reason
+7. **Write Production Code** - Minimal code to pass test
+8. **Static Quality Checks** - Linting, formatting, type safety
+9. **Verify Green** - Confirm test passes
+10. **Regression Testing** - Full test suite validation
+11. **Test Quality Inspection** - Ensure test effectiveness
 
 ### Phase 3: Iteration & Completion
-11. **Refactoring** - Clean code while maintaining green tests
-12. **Next Iteration** - Move to next piece or test case
+12. **Context Updating** - Update ai_context with progress and decisions
+13. **Refactoring** - Clean code while maintaining green tests
+14. **Next Iteration** - Move to next piece or test case
 
 ## 💡 Example Workflow
 
@@ -114,6 +119,19 @@ export class UserService {
   }
 }
 ```
+
+## 🧠 AI Context System
+
+The AI Context Persistence rule automatically creates and maintains an `ai_context/` folder containing:
+
+- **`project_status.md`** - Current project state and active decisions
+- **`task_log.md`** - Chronological history of all AI-completed tasks
+- **`architecture_decisions.md`** - Technical choices and rationale
+- **`code_conventions.md`** - Project-specific coding standards
+- **`dependencies.md`** - Library choices and integration decisions
+- **`known_issues.md`** - Current limitations and technical debt
+
+This ensures project consistency and decision continuity across all AI interactions.
 
 ## 🎛️ Rule Configuration
 
