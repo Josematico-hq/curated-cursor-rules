@@ -16,14 +16,30 @@ alwaysApply: false
 📋 **REQUIRED AI CONTEXT FILES**
 - **`ai_context/project_status.md`** - Current project state, decisions, and characteristics
 - **`ai_context/task_log.md`** - Chronological log of all AI-completed tasks
+- **`ai_context/implementation_plan.md`** - Detailed plans for complex tasks and progress tracking
 - **`ai_context/architecture_decisions.md`** - Technical decisions and architectural choices
 - **`ai_context/code_conventions.md`** - Project-specific coding standards and patterns
 - **`ai_context/dependencies.md`** - Library choices, versions, and integration decisions
 - **`ai_context/known_issues.md`** - Current bugs, limitations, and technical debt
 
+🎯 **PROJECT PLANNING REQUIREMENTS - MANDATORY FOR COMPLEX TASKS**
+- For tasks estimated >30 minutes or involving multiple components: CREATE detailed plan
+- For features requiring multiple files/modules: CREATE implementation plan
+- For architectural changes or new integrations: CREATE comprehensive plan
+- ALWAYS create plan BEFORE starting implementation
+- Plans must include: breakdown, dependencies, risks, success criteria
+
+📈 **PLAN PROGRESS TRACKING - MANDATORY UPDATES**
+- Update `implementation_plan.md` after EVERY significant progress step
+- Mark completed tasks with ✅ and timestamp
+- Update in-progress tasks with 🔄 and current status
+- Add blockers or issues encountered with 🚫 and resolution plan
+- Revise estimates and timelines based on actual progress
+
 🔄 **CONTEXT READING PROTOCOL - MANDATORY BEFORE ANY WORK**
 - Read `project_status.md` to understand current state and active decisions
 - Review `task_log.md` to see recent changes and context
+- Check `implementation_plan.md` for active plans and progress status
 - Check `architecture_decisions.md` for technical constraints
 - Verify `code_conventions.md` for style and pattern requirements
 - Understand active dependencies from `dependencies.md`
@@ -32,6 +48,7 @@ alwaysApply: false
 ✍️ **CONTEXT UPDATING PROTOCOL - MANDATORY AFTER ANY WORK**
 - Update `project_status.md` with new state and progress
 - Add completed task to `task_log.md` with timestamp and details
+- Update `implementation_plan.md` with progress on active plans
 - Record any new architectural decisions in `architecture_decisions.md`
 - Update `code_conventions.md` if new patterns are established
 - Log dependency changes in `dependencies.md`
@@ -42,6 +59,7 @@ alwaysApply: false
 - NEVER change architectural patterns without updating architecture_decisions.md
 - NEVER ignore established conventions from code_conventions.md
 - NEVER make decisions that conflict with project characteristics
+- NEVER deviate from active plans without updating implementation_plan.md
 - If change is needed, UPDATE the ai_context files first, then implement
 
 🎯 **CONTEXT FILE STRUCTURE REQUIREMENTS**
@@ -80,12 +98,46 @@ alwaysApply: false
 - **Impact**: [How this affects future development]
 ```
 
+**implementation_plan.md format:**
+```markdown
+# Implementation Plan
+
+## Active Plans
+
+### [Plan Name] - [Status: Planning/In Progress/Complete]
+**Created**: [Date]
+**Estimated Completion**: [Date]
+**Complexity**: [Simple/Medium/Complex]
+
+#### Objective
+[Clear description of what needs to be accomplished]
+
+#### Task Breakdown
+- ✅ [Completed task] - [Timestamp]
+- 🔄 [In progress task] - [Current status]
+- 📋 [Planned task]
+- 🚫 [Blocked task] - [Blocker description]
+
+#### Dependencies
+- [External dependencies or prerequisites]
+
+#### Success Criteria
+- [How to know when this is complete]
+
+#### Risks & Mitigation
+- [Potential issues and how to address them]
+
+#### Progress Notes
+- [Date]: [Progress update]
+```
+
 📊 **CONTEXT VALIDATION RULES**
 - Validate ai_context folder exists before starting work
 - Confirm all required files are present and readable
 - Verify information is current and relevant
 - Check for conflicts between different context files
 - Ensure decisions are internally consistent
+- Verify active plans exist for complex tasks
 
 🔍 **CONTEXT INFORMATION CATEGORIES**
 
@@ -110,57 +162,74 @@ alwaysApply: false
 - Performance and scalability goals
 - Timeline and milestone commitments
 
+**Planning Context:**
+- Active implementation plans and progress
+- Task dependencies and prerequisites
+- Risk assessment and mitigation strategies
+- Success criteria and completion metrics
+- Progress tracking and timeline updates
+
 ## Examples
 
 <example>
-  **Correct Context Management Workflow:**
+  **Correct Context Management with Planning:**
   
   "I will start by reading the ai_context folder to understand the current project state:
   
   **Step 1: Context Reading**
   - Reading ai_context/project_status.md...
-  - Current phase: Authentication module development
-  - Active decisions: Using JWT with refresh tokens, PostgreSQL for user data
-  - Established patterns: Repository pattern, dependency injection
+  - Current phase: E-commerce platform development
+  - Reading ai_context/implementation_plan.md...
+  - Active plan: User authentication system (In Progress - 60% complete)
+  - Next planned task: Implement password reset functionality
   
-  **Step 2: Task Execution**
-  - Implementing user login following established JWT pattern
-  - Using repository pattern as documented in architecture_decisions.md
-  - Following naming conventions from code_conventions.md
+  **Step 2: Complex Task Assessment**
+  - Password reset involves: email service, token generation, database updates, UI
+  - Estimated complexity: Medium (45+ minutes)
+  - Creating detailed implementation plan required
   
-  **Step 3: Context Updating**
-  - Updated project_status.md: Authentication module 80% complete
-  - Added to task_log.md: User login implementation with JWT validation
-  - No new architectural decisions - followed existing patterns"
+  **Step 3: Plan Creation**
+  - Updated implementation_plan.md with new plan: Password Reset System
+  - Breakdown: Email service integration, Token management, Security validation, UI components
+  - Dependencies: Email service configuration, existing user model
+  
+  **Step 4: Implementation with Progress Updates**
+  - Started with email service integration
+  - Updated plan: Email service ✅ Complete, Token management 🔄 In Progress
+  
+  **Step 5: Context Updates**
+  - Updated project_status.md: Authentication module 85% complete
+  - Added to task_log.md: Password reset email service implementation
+  - Updated implementation_plan.md: Token management complete, UI work remaining"
 </example>
 
 <example type="invalid">
-  **FORBIDDEN - Ignoring Context:**
+  **FORBIDDEN - Ignoring Planning Requirements:**
   
-  ❌ Starting work without reading context:
-  "I'll implement user authentication using sessions."
-  [Ignores ai_context files that specify JWT approach]
+  ❌ Starting complex work without planning:
+  "I'll implement the entire user dashboard with authentication, data visualization, and admin features."
+  [Complex multi-component task without implementation plan]
   
-  ❌ Contradicting established decisions:
-  "Let's switch from PostgreSQL to MongoDB for user data."
-  [Conflicts with documented architecture decision]
+  ❌ Not updating plan progress:
+  "Completed user authentication, now working on dashboard."
+  [Fails to update implementation_plan.md with progress]
   
-  ❌ Not updating context after work:
-  "Authentication feature implemented successfully."
-  [Completes work without updating ai_context files]
+  ❌ Deviating from plan without documentation:
+  "Instead of the planned JWT approach, I'll use sessions."
+  [Changes approach without updating implementation_plan.md]
   
-  ❌ Changing patterns without documentation:
+  ❌ No plan for complex task:
   ```typescript
-  // FORBIDDEN: Using different pattern without updating conventions
-  class UserController {
-    // Direct database access instead of repository pattern
-    async login() {
-      return await db.users.findOne();
+  // FORBIDDEN: Complex integration without planning
+  class EcommerceService {
+    // Multiple integrations: payment, inventory, shipping, taxes
+    async processOrder() {
+      // Complex logic without implementation plan
     }
   }
   ```
   
-  ❌ Missing context validation:
-  "I'll continue with the feature development."
-  [Proceeds without checking if ai_context folder exists]
+  ❌ Incomplete progress tracking:
+  "Making good progress on the feature."
+  [Vague update without specific plan progress details]
 </example>

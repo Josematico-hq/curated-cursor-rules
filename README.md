@@ -126,10 +126,21 @@ The AI Context Persistence rule automatically creates and maintains an `ai_conte
 
 - **`project_status.md`** - Current project state and active decisions
 - **`task_log.md`** - Chronological history of all AI-completed tasks
+- **`implementation_plan.md`** - Detailed plans for complex tasks with progress tracking
 - **`architecture_decisions.md`** - Technical choices and rationale
 - **`code_conventions.md`** - Project-specific coding standards
 - **`dependencies.md`** - Library choices and integration decisions
 - **`known_issues.md`** - Current limitations and technical debt
+
+### 🎯 Intelligent Planning System
+
+For complex tasks (>30 minutes or multi-component features), the system automatically:
+
+- **Creates detailed implementation plans** before starting work
+- **Tracks progress** with visual indicators (✅🔄📋🚫) 
+- **Updates plans** after every significant development step
+- **Maintains continuity** across AI conversation boundaries
+- **Prevents scope drift** by documenting planned approach
 
 This ensures project consistency and decision continuity across all AI interactions.
 

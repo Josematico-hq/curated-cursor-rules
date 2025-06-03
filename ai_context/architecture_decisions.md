@@ -40,6 +40,7 @@
   ai_context/
   ├── project_status.md (current state and decisions)
   ├── task_log.md (chronological task history)
+  ├── implementation_plan.md (project planning and progress tracking)
   ├── architecture_decisions.md (technical choices)
   ├── code_conventions.md (coding standards)
   ├── dependencies.md (library and integration choices)
@@ -54,6 +55,20 @@
 - **Decision**: Enforce context reading before work and updating after work
 - **Implementation**: Rule enforcement through ai-context-persistence-always.mdc
 - **Rationale**: Prevents context drift and maintains project consistency
+- **Status**: Implemented
+
+### Decision: Project Planning Integration for Complex Tasks
+- **Date**: 2024-06-01 15:40
+- **Context**: Need systematic planning and progress tracking for complex development tasks
+- **Decision**: Mandatory implementation plans for complex tasks (>30 min, multi-component features)
+- **Requirements**:
+  - Detailed task breakdown with dependencies
+  - Progress tracking with status indicators (✅🔄📋🚫)
+  - Risk assessment and mitigation strategies
+  - Success criteria and completion metrics
+  - Regular plan updates after significant progress
+- **Implementation**: Enhanced ai-context-persistence-always.mdc rule with planning requirements
+- **Rationale**: Ensures complex work is properly planned and tracked across AI conversation boundaries
 - **Status**: Implemented
 
 ## Documentation Architecture
