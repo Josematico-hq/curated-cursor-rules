@@ -81,6 +81,20 @@
 - **Rationale**: Complete documentation reduces adoption barriers and clarifies value
 - **Status**: Implemented
 
+### Decision: Documentation Synchronization Enforcement
+- **Date**: 2024-06-01 16:15
+- **Context**: Need to ensure all project documentation stays current and accurate with code changes
+- **Decision**: Implement mandatory documentation synchronization rule for all project changes
+- **Requirements**:
+  - Automatic documentation updates after any code, feature, or configuration changes
+  - Documentation impact assessment before making changes
+  - Validation that all documentation examples actually work
+  - Special handling for breaking changes, integrations, and security updates
+  - Integration with AI context system for documentation tracking
+- **Implementation**: Created documentation-synchronization-always.mdc in global-rules
+- **Rationale**: Prevents documentation drift and ensures project information remains accurate and useful
+- **Status**: Implemented
+
 ## Version Control Architecture
 
 ### Decision: SSH-Based Authentication for Multiple Accounts
